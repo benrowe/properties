@@ -1,18 +1,18 @@
 {
-    "name": "benrowe/:package_name",
+    "name": "benrowe/properties",
     "type": "library",
-    "description": ":package_description",
+    "description": "A simple runtime package for handling properties on a class",
     "keywords": [
         "benrowe",
-        ":package_name"
+        "properties"
     ],
-    "homepage": "https://github.com/benrowe/:package_name",
+    "homepage": "https://github.com/benrowe/properties",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
-            "homepage": ":author_website",
+            "name": "Ben Rowe",
+            "email": "ben.rowe.83@gmail.com",
+            "homepage": "http://benrowe.info",
             "role": "Developer"
         }
     ],
@@ -25,12 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Benrowe\\:package_name\\": "src"
+            "Benrowe\\Properties\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Benrowe\\:package_name\\": "tests"
+            "Benrowe\\Properties\\": "tests"
         }
     },
     "scripts": {
