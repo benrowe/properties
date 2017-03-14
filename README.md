@@ -48,7 +48,7 @@ class Sample extends AbstractBase
             })
             ->validate(function ($value) {
                 return strlen($value) > 0;
-            })
+            });
 
     }
 }
