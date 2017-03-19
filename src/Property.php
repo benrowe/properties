@@ -94,6 +94,9 @@ class Property
 
     public function setValue($value)
     {
+        if ($this->setter) {
+            $value = call_user_func($this->setter, $value);
+        }
         $this->value = $value;
     }
 
