@@ -31,12 +31,18 @@ class Property
         $this->setDefault($default);
     }
 
+    /**
+     * Set the property name
+     */
     public function setName($name)
     {
         // add name validation
         $this->name = $name;
     }
 
+    /**
+     * Get the property name
+     */
     public function getName()
     {
         return $this->name;
@@ -47,7 +53,7 @@ class Property
      *
      * @param string $type [description]
      */
-    public function setType(?string $type)
+    public function setType($type)
     {
         if ($type === null) {
             $this->type = null;
@@ -88,12 +94,23 @@ class Property
 
     public function setValue($value)
     {
+        if ($this->setter) {
+            $value = call_user_func($this->setter, $value);
+        }
         $this->value = $value;
     }
 
     public function getValue()
     {
-        return $this->value;
+        if ($this->value === null) {
+            return $this->default;
+        }
+        $value = $this->value;
+        if ($this->getter) {
+            $value = call_user_func($this->getter, $value);
+        }
+        
+        return $value;
     }
 
     /**

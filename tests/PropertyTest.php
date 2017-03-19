@@ -27,11 +27,21 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
                 return strtolower($value);
             })
             ->getter(function ($value) {
-                return str_reverse($value);
+                return strrev($value);
             });
 
         $property->setValue('FOO');
         $this->assertSame('oof', $property->getValue());
+    }
+    
+    public function testGetDefault()
+    {
+        $property = new Property('name', 'string');
+        $this->assertSame(null, $property->getDefault());
+        $property->setDefault('foo');
+        $this->assertSame('foo', $property->getDefault());
+        $property->setDefault(1);
+        $this->assertSame(1, $property->getDefault());
     }
 
     public function testSetValue()
