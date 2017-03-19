@@ -31,12 +31,18 @@ class Property
         $this->setDefault($default);
     }
 
+    /**
+     * 
+     */
     public function setName($name)
     {
         // add name validation
         $this->name = $name;
     }
 
+    /**
+     * 
+     */
     public function getName()
     {
         return $this->name;
