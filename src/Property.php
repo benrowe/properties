@@ -102,7 +102,15 @@ class Property
 
     public function getValue()
     {
-        return $this->value;
+        if ($this->value === null) {
+            return $this->default;
+        }
+        $value = $this->value;
+        if ($this->getter) {
+            $value = call_user_func($this->getter, $value);
+        }
+        
+        return $value;
     }
 
     /**
