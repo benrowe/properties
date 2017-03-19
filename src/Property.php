@@ -53,7 +53,7 @@ class Property
      *
      * @param string $type [description]
      */
-    public function setType(?string $type)
+    public function setType($type)
     {
         if ($type === null) {
             $this->type = null;
