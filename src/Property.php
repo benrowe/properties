@@ -32,7 +32,7 @@ class Property
     }
 
     /**
-     * 
+     * Set the property name
      */
     public function setName($name)
     {
@@ -41,7 +41,7 @@ class Property
     }
 
     /**
-     * 
+     * Get the property name
      */
     public function getName()
     {
