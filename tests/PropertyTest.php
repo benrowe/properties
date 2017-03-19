@@ -27,7 +27,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
                 return strtolower($value);
             })
             ->getter(function ($value) {
-                return str_reverse($value);
+                return strrev($value);
             });
 
         $property->setValue('FOO');
