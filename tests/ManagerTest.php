@@ -20,33 +20,35 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Property::class, $this->manager->addProperty('name'));
     }
 
-    public function testGetProperty()
-    {
-        $this->manager->addProperty('name');
-        $this->assertInstanceOf(Property::class, $this->manager->getProperty('name'));
-    }
-
     public function testHasProperty()
     {
         $this->manager->addProperty('name');
         $this->assertTrue($this->manager->hasProperty('name'));
     }
 
-
+    public function testGetProperty()
+    {
+        $this->manager->addProperty('name');
+        $this->assertInstanceOf(Property::class, $this->manager->getProperty('name'));
+    }
 
     public function testRemoveProperty()
     {
         $this->manager->addProperty('removeme');
-        $this->assertTrue($this->manager->removeProperty('removeme'));
         $this->assertTrue($this->manager->hasProperty('removeme'));
+        $this->assertTrue($this->manager->removeProperty('removeme'));
         $this->assertFalse($this->manager->removeProperty('removeme'));
         $this->assertFalse($this->manager->hasProperty('removeme'));
 
     }
 
-    public function testGetValue()
+    public function testValues()
     {
-
+        $this->manager->addProperty('name');
+        $this->assertNull($this->manager->getValue('name'));
+        $this->manager->setValue('name', 'foo');
+        $this->assertSame('foo', $this->manager->getValue('name'));
+        $this->assertSame('foo', $this->manager->getProperty('name')->getValue());
     }
 
     public function testSetValue()
