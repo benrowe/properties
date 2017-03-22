@@ -39,7 +39,7 @@ class Manager
     public function getProperty(string $name): Property
     {
         if (!$this->hasProperty($name)) {
-            throw new Exception('Unknown property "'.$name.'"');
+            throw new PropertyException('Unknown property "'.$name.'"');
         }
         return $this->properties[$name];
     }
