@@ -10,6 +10,7 @@ use Closure;
  * Defines a unique property
  *
  * @package Benrowe\Properties
+ * @todo add support for validating a property's value when being set
  */
 class Property
 {
@@ -23,8 +24,12 @@ class Property
 
     /**
      * Create a new Property Instance
+     *
+     * @param string $name
+     * @param string $type
+     * @param string $default
      */
-    public function __construct($name, $type = null, $default = null)
+    public function __construct(string $name, string $type = null, $default = null)
     {
         $this->setName($name);
         $this->setType($type);
@@ -33,8 +38,9 @@ class Property
 
     /**
      * Set the property name
+     * @param string $name the name of the property
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         // add name validation
         $this->name = $name;
@@ -42,8 +48,10 @@ class Property
 
     /**
      * Get the property name
+     *
+     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -51,11 +59,13 @@ class Property
     /**
      * Set the type for the property
      *
-     * @param string $type [description]
+     * @param string $type
+     * @todo add support for interface/class checking!
      */
     public function setType($type)
     {
         if ($type === null) {
+            // no type set
             $this->type = null;
             return $this;
         }
@@ -77,21 +87,40 @@ class Property
         $this->type = $type;
     }
 
+    /**
+     * Get the property type
+     * @return string|null
+     */
     public function getType()
     {
         return $this->type;
     }
 
+    /**
+     * Set the default value of the property if nothing is explicitly set
+     *
+     * @param mixed $default
+     */
     public function setDefault($default)
     {
         $this->default = $default;
     }
 
+    /**
+     * Get the default value
+     *
+     * @return mixed
+     */
     public function getDefault()
     {
         return $this->default;
     }
 
+    /**
+     * Set the value against the property
+     *
+     * @param mixed $value
+     */
     public function setValue($value)
     {
         if ($this->setter) {
@@ -100,6 +129,11 @@ class Property
         $this->value = $value;
     }
 
+    /**
+     * Get the currently set value, if no value is set the default is used
+     *
+     * @return mixed
+     */
     public function getValue()
     {
         if ($this->value === null) {
@@ -109,14 +143,16 @@ class Property
         if ($this->getter) {
             $value = call_user_func($this->getter, $value);
         }
-        
+
         return $value;
     }
 
     /**
-     * [setter description]
-     * @param  Closure $setter [description]
-     * @return setter
+     * Inject a custom closure to handle the storage of the value when it is
+     * set into the property
+     * @param  Closure $setter the custom function to run when the value is
+     * being set
+     * @return self
      */
     public function setter(Closure $setter)
     {
@@ -126,7 +162,8 @@ class Property
     }
 
     /**
-     * Specify the getter
+     * Specify a custom closer to handle the retreival of the value stored
+     * against this property
      *
      * @param  Closure $getter [description]
      * @return self
