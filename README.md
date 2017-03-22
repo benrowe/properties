@@ -75,6 +75,8 @@ Each property can have a
 - default value (null): mixed
 - value: mixed (depends on data type/validation/setter)
 
+## TODO
+- build custom validation support for setting the value
 
 ## Change log
 
