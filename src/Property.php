@@ -22,6 +22,17 @@ class Property
     private $setter;
     private $getter;
 
+    const TYPES = [
+            'string',
+            'integer',
+            'float',
+            'boolean',
+            'array',
+            'object',
+            'null',
+            'resource',
+        ];
+
     /**
      * Create a new Property Instance
      *
@@ -40,7 +51,7 @@ class Property
      * Set the property name
      * @param string $name the name of the property
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         // add name validation
         $this->name = $name;
@@ -62,26 +73,16 @@ class Property
      * @param string $type
      * @todo add support for interface/class checking!
      */
-    public function setType($type)
+    public function setType($type): void
     {
         if ($type === null) {
             // no type set
             $this->type = null;
-            return $this;
+            return;
         }
 
-        $types = [
-            'string',
-            'integer',
-            'float',
-            'boolean',
-            'array',
-            'object',
-            'null',
-            'resource',
-        ];
         $type = strtolower($type);
-        if (!in_array($type, $types, true)) {
+        if (!in_array($type, self::TYPES, true)) {
             throw new PropertyException('Invalid type');
         }
         $this->type = $type;
