@@ -51,7 +51,7 @@ class Property
      * Set the property name
      * @param string $name the name of the property
      */
-    public function setName(string $name): void
+    public function setName(string $name)
     {
         // add name validation
         $this->name = $name;
