@@ -73,7 +73,7 @@ class Property
      * @param string $type
      * @todo add support for interface/class checking!
      */
-    public function setType($type): void
+    public function setType($type)
     {
         if ($type === null) {
             // no type set
