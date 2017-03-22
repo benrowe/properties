@@ -30,12 +30,13 @@ class Manager
     }
 
     /**
-     * [getProperty description]
-     * @param  [type] $name [description]
-     * @return [type]       [description]
+     * Get the property by its name
+     *
+     * @param  string $name
+     * @return Property
      * @throws Exception if the property doesn't exist
      */
-    public function getProperty($name): Property
+    public function getProperty(string $name): Property
     {
         if (!$this->hasProperty($name)) {
             throw new Exception('Unknown property "'.$name.'"');
@@ -49,7 +50,7 @@ class Manager
      * @param  string  $name property identifier
      * @return boolean
      */
-    public function hasProperty($name): bool
+    public function hasProperty(string $name): bool
     {
         return isset($this->properties[$name]);
     }
@@ -59,7 +60,7 @@ class Manager
      * @param  string $name
      * @return bool
      */
-    public function removeProperty($name): bool
+    public function removeProperty(string $name): bool
     {
         if (!$this->hasProperty($name)) {
             return false;
@@ -70,22 +71,22 @@ class Manager
 
     /**
      * Get the value of the property, if it exists
-     * @param  [type] $name [description]
-     * @return [type]       [description]
+     * @param  string $name property name
+     * @return mixed
      * @throws Exception if the property doesn't exist
      */
-    public function getValue($name)
+    public function getValue(string $name)
     {
         return $this->getProperty($name)->getValue();
     }
 
     /**
      * Set the value of the property, if it exists
-     * @param [type] $name  [description]
-     * @param [type] $value [description]
+     * @param string $name  the property identifier
+     * @param mixed $value the value to store against the property
      * @throws Exception if the property doesn't exist
      */
-    public function setValue($name, $value)
+    public function setValue(string $name, $value)
     {
         return $this->getProperty($name)->setValue($value);
     }
