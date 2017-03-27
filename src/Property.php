@@ -133,12 +133,14 @@ class Property
     /**
      * Get the currently set value, if no value is set the default is used
      *
+     * @param mixed $default runtime default value. specify the default value for this
+     *                       property when you call this method
      * @return mixed
      */
-    public function getValue()
+    public function getValue($default = null)
     {
         if ($this->value === null) {
-            return $this->default;
+            return $default !== null ? $default : $this->default;
         }
         $value = $this->value;
         if ($this->getter) {
