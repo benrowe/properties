@@ -51,6 +51,15 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('foo', $property->getValue());
     }
+    
+    public function testDefaultValueRuntime()
+    {
+        $property = new Property('name');
+        $this->assertNull($property->getValue());
+        $this->assertSame(12345, $property->getValue(12345));
+        $property->setValue('foo');
+        $this->assertSame('foo', $property->getValue(12345));
+    }
 
     public function testValidate()
     {
