@@ -65,4 +65,12 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
     {
         $property = new Property('name');
     }
+    
+    /**
+     * @expectedException \Benrowe\Properties\PropertyException
+     */
+    public function testInvalidType()
+    {
+        $property = new Property('name', 'foo');
+    }
 }
