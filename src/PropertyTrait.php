@@ -4,10 +4,20 @@ declare(strict_types=1);
 
 namespace Benrowe\Properties;
 
+/**
+ * Property Trait
+ * A convenience trait to bolt-in the property manager into an existing class
+ * 
+ * @package Benrowe\Properties
+ */
 trait PropertyTrait
 {
     private $propertyManager;
 
+    /**
+     * Conveniently delegate any method calls to the property manager if they 
+     * don't exist in the parent class
+     */
     public function __call($methodName, $params)
     {
         $pm = $this->getPropertyManager();
@@ -17,6 +27,9 @@ trait PropertyTrait
         return call_user_func_array([$pm, $methodName], $params);
     }
 
+    /**
+     * 
+     */
     public function __get($key)
     {
         return $this->getPropertyManager()->getValue($key);
@@ -27,7 +40,12 @@ trait PropertyTrait
         return $this->getPropertyManager()->setValue($key, $value);
     }
 
-    private function getPropertyManager()
+    /**
+     * Get an instance of the property manager
+     * 
+     * @return Manager
+     */
+    private function getPropertyManager(): Manager
     {
         if (!$this->propertyManager) {
             $this->propertyManager = new Manager;
