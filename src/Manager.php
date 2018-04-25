@@ -60,6 +60,16 @@ class Manager
     }
 
     /**
+     * Get all of the properties registered by the manager
+     *
+     * @return Property[]
+     */
+    public function allProperties(): array
+    {
+        return $this->properties;
+    }
+
+    /**
      * Remove the property from the manager
      * @param  string $name
      * @return bool

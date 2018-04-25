@@ -40,6 +40,14 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->manager->hasProperty('removeme'));
     }
 
+    public function testAllProperties()
+    {
+        $this->assertCount(0, $this->manager->allProperties());
+        $this->manager->addProperty('name');
+        $this->manager->addProperty('name', 'string');
+        $this->assertCount(1, $this->manager->allProperties());
+    }
+
     public function testValues()
     {
         $this->manager->addProperty('name');
