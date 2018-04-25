@@ -33,7 +33,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
         $property->setValue('FOO');
         $this->assertSame('oof', $property->getValue());
     }
-    
+
     public function testGetDefault()
     {
         $property = new Property('name', 'string');
@@ -51,7 +51,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('foo', $property->getValue());
     }
-    
+
     public function testDefaultValueRuntime()
     {
         $property = new Property('name');
@@ -65,7 +65,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
     {
         $property = new Property('name');
     }
-    
+
     /**
      * @expectedException \Benrowe\Properties\PropertyException
      */
