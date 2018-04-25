@@ -76,7 +76,23 @@ Each property can have a
 - value: mixed (depends on data type/validation/setter)
 
 ## TODO
+- enforce data type system
+  - types can be provided as
+    - base php types
+      - string
+      - int
+      - float
+      - boolean
+      - array
+      - object
+    - fqcn of inteface/class the value must be an instance of
+    - dockblock style
+      - "string|int|null"
+      - "type[]" array of types
+      - "array<key, value>" an array of values, where the key and values are defined
+      - http://docs.phpdoc.org/guides/types.htm
 - build custom validation support for setting the value
+ - instead of providing a closure for the setter, provide a laravel style validation string.
 
 ## Change log
 
