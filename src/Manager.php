@@ -71,6 +71,7 @@ class Manager
 
     /**
      * Remove the property from the manager
+     *
      * @param  string $name
      * @return bool
      */
@@ -85,6 +86,7 @@ class Manager
 
     /**
      * Get the value of the property, if it exists
+     *
      * @param  string $name property name
      * @return mixed
      * @throws Exception if the property doesn't exist
@@ -96,6 +98,7 @@ class Manager
 
     /**
      * Set the value of the property, if it exists
+     *
      * @param string $name  the property identifier
      * @param mixed $value the value to store against the property
      * @throws Exception if the property doesn't exist
