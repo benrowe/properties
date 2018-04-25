@@ -12,10 +12,14 @@ namespace Benrowe\Properties;
  */
 class Manager
 {
+    /**
+     * @var Property[]
+     */
     private $properties = [];
 
     /**
      * Add a new property to the stack
+     *
      * @param string $name the property name
      * @param string $type the data type for the property (string, int, bool, etc)
      * @param mixed $default the default value, until explicity assigned this is

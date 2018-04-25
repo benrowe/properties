@@ -14,7 +14,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->manager = new Manager();
     }
 
-
     public function testAddProperty()
     {
         $this->assertInstanceOf(Property::class, $this->manager->addProperty('name'));
