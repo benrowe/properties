@@ -12,10 +12,14 @@ namespace Benrowe\Properties;
  */
 class Manager
 {
+    /**
+     * @var Property[]
+     */
     private $properties = [];
 
     /**
      * Add a new property to the stack
+     *
      * @param string $name the property name
      * @param string $type the data type for the property (string, int, bool, etc)
      * @param mixed $default the default value, until explicity assigned this is
@@ -56,7 +60,18 @@ class Manager
     }
 
     /**
+     * Get all of the properties registered by the manager
+     *
+     * @return Property[]
+     */
+    public function allProperties(): array
+    {
+        return $this->properties;
+    }
+
+    /**
      * Remove the property from the manager
+     *
      * @param  string $name
      * @return bool
      */
@@ -71,6 +86,7 @@ class Manager
 
     /**
      * Get the value of the property, if it exists
+     *
      * @param  string $name property name
      * @return mixed
      * @throws Exception if the property doesn't exist
@@ -82,6 +98,7 @@ class Manager
 
     /**
      * Set the value of the property, if it exists
+     *
      * @param string $name  the property identifier
      * @param mixed $value the value to store against the property
      * @throws Exception if the property doesn't exist
