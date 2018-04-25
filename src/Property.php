@@ -5,21 +5,47 @@ namespace Benrowe\Properties;
 use Closure;
 
 /**
- * Defines a unique property
+ * Defines a unique property.
+ * As a base, the property must have a a name. Additionally
  *
  * @package Benrowe\Properties
  * @todo add support for validating a property's value when being set
  */
 class Property
 {
+    /**
+     * @var string property name
+     */
     private $name;
+
+    /**
+     * @var string|Closure|null the value type, {@see setType} for more details
+     */
     private $type = null;
+
+    /**
+     * @var mixed the default value
+     */
     private $default = null;
+
+    /**
+     * The currently set value
+     */
     private $value = null;
 
+    /**
+     * @var Closure|string|null the setter mutator
+     */
     private $setter;
+
+    /**
+     * @var Closure|string|null the getter mutator
+     */
     private $getter;
 
+    /**
+     * @var string[] the base types the component will allow
+     */
     const TYPES = [
             'string',
             'integer',
@@ -34,9 +60,9 @@ class Property
     /**
      * Create a new Property Instance
      *
-     * @param string $name
-     * @param string $type
-     * @param string $default
+     * @param string $name the name of the property
+     * @param string|Closure|null $type {@see setType}
+     * @param string|null $default the default value
      */
     public function __construct(string $name, string $type = null, $default = null)
     {
@@ -47,11 +73,11 @@ class Property
 
     /**
      * Set the property name
+     *
      * @param string $name the name of the property
      */
     public function setName(string $name)
     {
-        // add name validation
         $this->name = $name;
     }
 
@@ -149,8 +175,9 @@ class Property
     }
 
     /**
-     * Inject a custom closure to handle the storage of the value when it is
-     * set into the property
+     * Register a closure to mutate the properties value before being stored.
+     * This can be to cast the value to the $type specified
+     *
      * @param  Closure $setter the custom function to run when the value is
      * being set
      * @return self
