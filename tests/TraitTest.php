@@ -25,7 +25,15 @@ class TraitTest extends \PHPUnit_Framework_TestCase
     {
         $this->concrete->foo;
     }
-
+    
+    /**
+     * @expectedException \Exception
+     */
+    public function testNonExistMethod()
+    {
+        $this->concrete->foo();
+    }
+    
     public function testAddProperty()
     {
         $this->assertInstanceOf(Property::class, $this->concrete->addProperty('test'));

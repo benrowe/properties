@@ -39,7 +39,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->manager->removeProperty('removeme'));
         $this->assertFalse($this->manager->removeProperty('removeme'));
         $this->assertFalse($this->manager->hasProperty('removeme'));
-
     }
 
     public function testValues()
@@ -53,6 +52,5 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testSetValue()
     {
-
     }
 }

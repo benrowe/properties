@@ -7,7 +7,7 @@ namespace Benrowe\Properties;
 /**
  * Property Trait
  * A convenience trait to bolt-in the property manager into an existing class
- * 
+ *
  * @package Benrowe\Properties
  */
 trait PropertyTrait
@@ -15,7 +15,7 @@ trait PropertyTrait
     private $propertyManager;
 
     /**
-     * Conveniently delegate any method calls to the property manager if they 
+     * Conveniently delegate any method calls to the property manager if they
      * don't exist in the parent class
      */
     public function __call($methodName, $params)
@@ -28,7 +28,7 @@ trait PropertyTrait
     }
 
     /**
-     * 
+     *
      */
     public function __get($key)
     {
@@ -42,7 +42,7 @@ trait PropertyTrait
 
     /**
      * Get an instance of the property manager
-     * 
+     *
      * @return Manager
      */
     private function getPropertyManager(): Manager
