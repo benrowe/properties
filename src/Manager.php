@@ -9,6 +9,7 @@ namespace Benrowe\Properties;
  * serveral properties
  *
  * @package Benrowe\Properties
+ * test comment
  */
 class Manager
 {
@@ -62,9 +63,7 @@ class Manager
      */
     public function removeProperty(string $name): bool
     {
-        if (!$this->hasProperty($name)) {
-            return false;
-        }
+        if (!$this->hasProperty($name)) return false;
         unset($this->properties[$name]);
         return true;
     }
