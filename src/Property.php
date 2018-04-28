@@ -49,8 +49,10 @@ class Property
     const TYPES = [
             'string',
             'integer',
+            'int',
             'float',
             'boolean',
+            'bool',
             'array',
             'object',
             'null',
