@@ -57,6 +57,8 @@ class Property
             'resource',
         ];
 
+    const DOCBLOCK_PARAM_PATTERN = "/^(([a-z\\\])+(\[\])?\|?)+$/i";
+
     /**
      * Create a new Property Instance
      *
