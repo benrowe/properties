@@ -1,46 +1,74 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Benrowe\Properties;
 
 use Closure;
 
 /**
- * Defines a unique property
+ * Defines a unique property.
+ * As a base, the property must have a a name. Additionally
  *
  * @package Benrowe\Properties
  * @todo add support for validating a property's value when being set
  */
 class Property
 {
+    /**
+     * @var string property name
+     */
     private $name;
+
+    /**
+     * @var string|Closure|null the value type, {@see setType} for more details
+     */
     private $type = null;
+
+    /**
+     * @var mixed the default value
+     */
     private $default = null;
+
+    /**
+     * The currently set value
+     */
     private $value = null;
 
+    /**
+     * @var Closure|string|null the setter mutator
+     */
     private $setter;
+
+    /**
+     * @var Closure|string|null the getter mutator
+     */
     private $getter;
 
+    /**
+     * @var string[] the base types the component will allow
+     */
     const TYPES = [
             'string',
             'integer',
+            'int',
             'float',
             'boolean',
+            'bool',
             'array',
             'object',
             'null',
             'resource',
         ];
 
+    const DOCBLOCK_PARAM_PATTERN = "/^(([a-z\\\])+(\[\])?\|?)+$/i";
+
     /**
      * Create a new Property Instance
      *
-     * @param string $name
-     * @param string $type
-     * @param string $default
+     * @param string $name the name of the property
+     * @param string|Closure|null $type {@see setType}
+     * @param string|null $default the default value
      */
-    public function __construct(string $name, string $type = null, $default = null)
+    public function __construct(string $name, $type = null, $default = null)
     {
         $this->setName($name);
         $this->setType($type);
@@ -49,11 +77,11 @@ class Property
 
     /**
      * Set the property name
+     *
      * @param string $name the name of the property
      */
     public function setName(string $name)
     {
-        // add name validation
         $this->name = $name;
     }
 
@@ -69,28 +97,46 @@ class Property
 
     /**
      * Set the type for the property
+     * The type acts as a validator for when the {@see setValue} is called.
+     * Properties are strict so the type specified here must be exact
      *
-     * @param string $type
-     * @todo add support for interface/class checking!
+     * The following types are supported:
+     * - php primitative types {@see self::TYPES} for a list
+     * - docblock style string
+     * - fully quantified class name of instanceof
+     * - Closure: bool determines if the value is acceptable
+     * - null. no set checking, effectively treated as 'mixed'
+     *
+     * @param string|Closure|null $type
+     * @return void
+     * @throws PropertyException if type is unsupported
      */
-    public function setType($type)
+    public function setType($type): void
     {
-        if ($type === null) {
-            // no type set
-            $this->type = null;
+        // null/callable
+        if (is_callable($type) || $type === null) {
+            $this->type = $type;
             return;
         }
 
-        $type = strtolower($type);
-        if (!in_array($type, self::TYPES, true)) {
-            throw new PropertyException('Invalid type');
+        // primitaves
+        if (in_array(strtolower($type), self::TYPES, true)) {
+            $this->type = strtolower($type);
+            return;
         }
-        $this->type = $type;
+
+        if (preg_match(self::DOCBLOCK_PARAM_PATTERN, $type)) {
+            $this->type = $type;
+            return;
+        }
+
+        // unknown, drop
+        throw new PropertyException(PropertyException::UNKNOWN_TYPE);
     }
 
     /**
      * Get the property type
-     * @return string|null
+     * @return closure|string|null
      */
     public function getType()
     {
@@ -127,7 +173,83 @@ class Property
         if ($this->setter) {
             $value = call_user_func($this->setter, $value);
         }
+        // check the value against the type specified
+        if ($this->type !== null && !$this->checkType($this->type, $value)) {
+            throw new PropertyException("Value specified for \"{$this->name}\" is not of the correct type");
+        }
         $this->value = $value;
+    }
+
+    /**
+     * Check the the value against the type and see if we have a match
+     *
+     * @param string|Closure $type the type
+     * @param mixed $value the value to check
+     *
+     * @return bool
+     */
+    private function checkType($type, $value): bool
+    {
+        if (is_callable($type)) {
+            // call the type closure as function ($value, $property)
+            return call_user_func($type, $value, $this);
+        }
+        if (in_array($type, self::TYPES)) {
+            return $this->typeCheck($type, $value);
+        }
+        // docblock style type
+        $types = explode('|', $type);
+        foreach ($types as $type) {
+            if (substr($type, -2) === '[]') {
+                if ($this->arrayOf(substr($type, 0, -2), $value)) {
+                    return true;
+                }
+            } else {
+                if ($this->typeCheck($type, $value)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Determine if the value is an array of the type specified
+     *
+     * @param string $type
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    private function arrayOf(string $type, $value): bool
+    {
+        if (!is_array($value)) {
+            return false;
+        }
+        foreach ($value as $val) {
+            if (!$this->typeCheck($type, $val)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check the type against the value (either a base type, or a instance of a class)
+     *
+     * @param string $type
+     * @param mixed  $value
+     *
+     * @return bool
+     */
+    private function typeCheck(string $type, $value): bool
+    {
+        if (in_array($type, self::TYPES)) {
+            return gettype($value) === $type;
+        }
+        // at this point, we assume the type is a FQCN..
+        return (bool)($value instanceof $type);
     }
 
     /**
@@ -151,8 +273,9 @@ class Property
     }
 
     /**
-     * Inject a custom closure to handle the storage of the value when it is
-     * set into the property
+     * Register a closure to mutate the properties value before being stored.
+     * This can be to cast the value to the $type specified
+     *
      * @param  Closure $setter the custom function to run when the value is
      * being set
      * @return self

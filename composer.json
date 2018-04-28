@@ -3,8 +3,10 @@
     "type": "library",
     "description": "A simple runtime package for handling properties on a class",
     "keywords": [
-        "benrowe",
-        "properties"
+        "properties",
+        "command",
+        "strict-typing",
+        "strict"
     ],
     "homepage": "https://github.com/benrowe/properties",
     "license": "MIT",
@@ -17,7 +19,7 @@
         }
     ],
     "require": {
-        "php" : "~7.0"
+        "php": "~7.1"
     },
     "require-dev": {
         "phpunit/phpunit" : "~5.0",

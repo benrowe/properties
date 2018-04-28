@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Benrowe\Properties;
 
@@ -9,4 +7,5 @@ namespace Benrowe\Properties;
  */
 class PropertyException extends \Exception
 {
+    const UNKNOWN_TYPE = 'Property $type is not supported';
 }
