@@ -3,8 +3,10 @@
     "type": "library",
     "description": "A simple runtime package for handling properties on a class",
     "keywords": [
-        "benrowe",
-        "properties"
+        "properties",
+        "command",
+        "strict-typing",
+        "strict"
     ],
     "homepage": "https://github.com/benrowe/properties",
     "license": "MIT",
