@@ -68,7 +68,7 @@ class Property
      * @param string|Closure|null $type {@see setType}
      * @param string|null $default the default value
      */
-    public function __construct(string $name, string $type = null, $default = null)
+    public function __construct(string $name, $type = null, $default = null)
     {
         $this->setName($name);
         $this->setType($type);
