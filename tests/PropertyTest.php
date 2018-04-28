@@ -71,6 +71,90 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidType()
     {
-        $property = new Property('name', 'foo');
+        $this->expectException(PropertyException::class);
+        $this->expectExceptionMessage(PropertyException::UNKNOWN_TYPE);
+        $property = new Property('name', '!!');
+    }
+
+    public function testClosureType()
+    {
+        $closure = function ($value) {
+            $type = gettype($value);
+            return $type === 'string' || $type === 'integer';
+        };
+        $property = new Property('test', $closure);
+        $property->setValue(8);
+        $this->assertSame(8, $property->getValue());
+        $property->setValue('8.88');
+        $this->assertSame('8.88', $property->getValue());
+    }
+
+    /**
+     * @expectedException \Benrowe\Properties\PropertyException
+     */
+    public function testInvalidTypeClosure()
+    {
+        $closure = function ($value) {
+            $type = gettype($value);
+            return $type === 'string' || $type === 'integer';
+        };
+        $property = new Property('test', $closure);
+        $property->setValue(8.88);
+    }
+
+    /**
+     * @expectedException \Benrowe\Properties\PropertyException
+     */
+    public function testInvalidBaseType()
+    {
+        $property = new Property('name', 'string');
+        $property->setValue('foo');
+        $this->assertSame('foo', $property->getValue());
+
+        $property->setValue(true);
+    }
+
+    public function testInstanceofTypeException()
+    {
+        $this->expectException(PropertyException::class);
+        $this->expectExceptionMessage("Value specified for \"name\" is not of the correct type");
+        $property = new Property('name', PropertyException::class);
+        $property->setValue(new \stdClass);
+    }
+
+    public function testInstanceOfType()
+    {
+        $property = new Property('name', PropertyException::class);
+        $property->setValue(new PropertyException);
+
+        $this->assertInstanceOf(PropertyException::class, $property->getValue());
+    }
+
+    public function testInstaceOfArrayType()
+    {
+        $property = new Property('name', PropertyException::class."[]");
+        $property->setValue([new PropertyException, new PropertyException]);
+
+        $this->assertCount(2, $property->getValue());
+    }
+
+
+    public function testInstaceOfArrayTypeException()
+    {
+        $this->expectException(PropertyException::class);
+        $this->expectExceptionMessage("Value specified for \"name\" is not of the correct type");
+        $property = new Property('name', PropertyException::class."[]");
+        $property->setValue([new PropertyException, new \stdClass]);
+
+        $this->assertCount(2, $property->getValue());
+    }
+    public function testInstaceOfArrayTypeNonArrayException()
+    {
+        $this->expectException(PropertyException::class);
+        $this->expectExceptionMessage("Value specified for \"name\" is not of the correct type");
+        $property = new Property('name', PropertyException::class."[]");
+        $property->setValue('hi');
+
+        $this->assertCount(2, $property->getValue());
     }
 }
