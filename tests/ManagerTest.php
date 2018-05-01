@@ -60,4 +60,14 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testSetValue()
     {
     }
+
+    public function testAllValues()
+    {
+        $this->manager->addProperty('null');
+        $this->assertSame(['null' => null], $this->manager->allValues());
+        $this->manager->addProperty('foo', null, 'bar');
+        $this->assertSame(['null' => null, 'foo' => 'bar'], $this->manager->allValues());
+        $this->manager->setValue('foo', 111);
+        $this->assertSame(['null' => null, 'foo' => 111], $this->manager->allValues());
+    }
 }
