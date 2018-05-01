@@ -105,4 +105,16 @@ class Manager
     {
         return $this->getProperty($name)->setValue($value);
     }
+
+    /**
+     * Get all the values from the properties
+     */
+    public function allValues(): array
+    {
+        $values = [];
+        foreach (array_keys($this->properties) as $key) {
+            $values[$key] = $this->getValue($key);
+        }
+        return $values;
+    }
 }
