@@ -7,6 +7,14 @@ namespace Benrowe\Properties;
  * A convenience trait to bolt-in the property manager into an existing class
  *
  * @package Benrowe\Properties
+ * @method Property addProperty(string $name, string $type = null, mixed $default = null)
+ * @method Property getProperty(string $name)
+ * @method bool hasProperty(string $name)
+ * @method Property[] allProperties()
+ * @method bool removeProperty(string $name)
+ * @method mixed getValue(string $name)
+ * @method void setValue(string $name, $value)
+ * @method array allValues()
  */
 trait PropertyTrait
 {
