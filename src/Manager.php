@@ -99,11 +99,12 @@ class Manager
      *
      * @param string $name  the property identifier
      * @param mixed $value the value to store against the property
+     * @return void
      * @throws Exception if the property doesn't exist
      */
     public function setValue(string $name, $value)
     {
-        return $this->getProperty($name)->setValue($value);
+        $this->getProperty($name)->setValue($value);
     }
 
     /**
