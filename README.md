@@ -76,23 +76,11 @@ Each property can have a
 - value: mixed (depends on data type/validation/setter)
 
 ## TODO
-- enforce data type system
-  - types can be provided as
-    - base php types
-      - string
-      - int
-      - float
-      - boolean
-      - array
-      - object
-    - fqcn of inteface/class the value must be an instance of
-    - dockblock style
-      - "string|int|null"
-      - "type[]" array of types
-      - "array<key, value>" an array of values, where the key and values are defined
-      - http://docs.phpdoc.org/guides/types.htm
+- add the ability for a setter to reject a value by throwing an exception
 - build custom validation support for setting the value
  - instead of providing a closure for the setter, provide a laravel style validation string.
+ - add a helper function to restrict the setter to a list of known values
+  `$this->addProperty('key')->isIn(['foo', 'bar']);`
 
 ## Change log
 
