@@ -2,14 +2,9 @@
 
 namespace Benrowe\Properties;
 
-use \Benrowe\Properties\Property;
-use \Benrowe\Properties\PropertyTrait;
-use \Benrowe\Properties\PropertyException;
+use PHPUnit\Framework\TestCase;
 
-/**
- *
- */
-class TraitTest extends \PHPUnit_Framework_TestCase
+class TraitTest extends TestCase
 {
     private $concrete;
 

@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Benrowe\Properties;
 
-use \Benrowe\Properties\Property;
+use PHPUnit\Framework\TestCase;
 
-class PropertyTest extends \PHPUnit_Framework_TestCase
+class PropertyTest extends TestCase
 {
     public function testInit()
     {
