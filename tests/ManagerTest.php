@@ -2,10 +2,9 @@
 
 namespace Benrowe\Properties;
 
-use \Benrowe\Properties\Manager;
-use \Benrowe\Properties\Property;
+use PHPUnit\Framework\TestCase;
 
-class ManagerTest extends \PHPUnit_Framework_TestCase
+class ManagerTest extends TestCase
 {
     private $manager;
 
