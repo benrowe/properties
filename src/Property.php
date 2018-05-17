@@ -59,7 +59,7 @@ class Property
             'resource',
         ];
 
-    const DOCBLOCK_PARAM_PATTERN = "/^(([a-z\\\])+(\[\])?\|?)+$/i";
+    const DOCBLOCK_PARAM_PATTERN = TypeChecker::DOCBLOCK_PARAM_PATTERN;
 
     /**
      * Create a new Property Instance
@@ -190,67 +190,13 @@ class Property
      */
     private function checkType($type, $value): bool
     {
-        if (is_callable($type)) {
-            // call the type closure as function ($value, $property)
-            return call_user_func($type, $value, $this);
-        }
-        if (in_array($type, self::TYPES)) {
-            return $this->typeCheck($type, $value);
-        }
-        // docblock style type
-        $types = explode('|', $type);
-        foreach ($types as $type) {
-            if (substr($type, -2) === '[]') {
-                if ($this->arrayOf(substr($type, 0, -2), $value)) {
-                    return true;
-                }
-            } else {
-                if ($this->typeCheck($type, $value)) {
-                    return true;
-                }
-            }
-        }
+        $checker = new TypeChecker($value);
 
-        return false;
+        $method = is_callable($type) ? 'checkAsClosure' : 'check';
+
+        return \call_user_func([$checker, $method], $type);
     }
 
-    /**
-     * Determine if the value is an array of the type specified
-     *
-     * @param string $type
-     * @param mixed $value
-     *
-     * @return bool
-     */
-    private function arrayOf(string $type, $value): bool
-    {
-        if (!is_array($value)) {
-            return false;
-        }
-        foreach ($value as $val) {
-            if (!$this->typeCheck($type, $val)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Check the type against the value (either a base type, or a instance of a class)
-     *
-     * @param string $type
-     * @param mixed  $value
-     *
-     * @return bool
-     */
-    private function typeCheck(string $type, $value): bool
-    {
-        if (in_array($type, self::TYPES)) {
-            return gettype($value) === $type;
-        }
-        // at this point, we assume the type is a FQCN..
-        return (bool)($value instanceof $type);
-    }
 
     /**
      * Get the currently set value, if no value is set the default is used
