@@ -6,6 +6,8 @@ class TypeChecker
 {
     private $value;
 
+    const DOCBLOCK_PARAM_PATTERN = "/^(([a-z\\\])+(\[\])?\|?)+$/i";
+
     const TYPES = [
         'string',
         'integer',
